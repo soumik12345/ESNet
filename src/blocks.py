@@ -107,3 +107,19 @@ def PFCU(input_tensor, output_channels):
     x = tf.keras.layers.Add()([input_tensor, branch_1, branch_2, branch_3])
     x = tf.keras.layers.ReLU()(x)
     return x
+
+
+def UpsamplingBlock(input_tensor, output_channels):
+    '''Upsampling Block
+    Reference: https://arxiv.org/pdf/1906.09826v1.pdf
+    Params:
+        input_tensor    -> Input Tensor
+        output_channels -> Number of output channels
+    '''
+    x = tf.keras.layers.Conv2DTranspose(
+        output_channels, 3, padding='same',
+        strides=(2, 2), use_bias=True
+    )(input_tensor)
+    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.ReLU()(x)
+    return x
