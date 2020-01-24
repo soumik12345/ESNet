@@ -2,7 +2,7 @@ import tensorflow as tf
 from .blocks import *
 
 
-def ESNet(input_shape=(1024, 512, 3)):
+def ESNet(input_shape=(1024, 512, 3), output_channels=19):
     inp = tf.keras.layers.Input(input_shape)
     ##### Encoder #####
     # Block 1
@@ -29,7 +29,7 @@ def ESNet(input_shape=(1024, 512, 3)):
     x = FCU(x, 16, K=3, dropout_prob=0.0)
     x = FCU(x, 16, K=3, dropout_prob=0.0)
     output = tf.keras.layers.Conv2DTranspose(
-        30, 3, padding='same',
+        output_channels, 3, padding='same',
         strides=(2, 2), use_bias=True
     )(x)
     return tf.keras.models.Model(inp, output)
