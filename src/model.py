@@ -22,12 +22,12 @@ def ESNet(input_shape=(1024, 512, 3)):
     ##### Decoder #####
     # Block 4
     x = UpsamplingBlock(x, 64)
-    x = FCU(x, 64, K=5)
-    x = FCU(x, 64, K=5)
+    x = FCU(x, 64, K=5, dropout_prob=0.0)
+    x = FCU(x, 64, K=5, dropout_prob=0.0)
     # Block 5
     x = UpsamplingBlock(x, 16)
-    x = FCU(x, 16, K=3)
-    x = FCU(x, 16, K=3)
+    x = FCU(x, 16, K=3, dropout_prob=0.0)
+    x = FCU(x, 16, K=3, dropout_prob=0.0)
     output = tf.keras.layers.Conv2DTranspose(
         30, 3, padding='same',
         strides=(2, 2), use_bias=True

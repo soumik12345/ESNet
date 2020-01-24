@@ -20,7 +20,7 @@ def DownsamplingBlock(input_tensor, input_channels, output_channels):
     return x
 
 
-def FCU(input_tensor, output_channels, K=3):
+def FCU(input_tensor, output_channels, K=3, dropout_prob=0.03):
     '''Factorized Convolutional Unit
     Reference: https://arxiv.org/pdf/1906.09826v1.pdf
     Params:
@@ -49,6 +49,7 @@ def FCU(input_tensor, output_channels, K=3):
     )(x)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Add()([input_tensor, x])
+    x = tf.keras.layers.Dropout(dropout_prob)(x)
     x = tf.keras.layers.ReLU()(x)
     return x
 
@@ -105,6 +106,7 @@ def PFCU(input_tensor, output_channels):
     )(branch_3)
     branch_3 = tf.keras.layers.BatchNormalization()(branch_3)
     x = tf.keras.layers.Add()([input_tensor, branch_1, branch_2, branch_3])
+    x = tf.keras.layers.Dropout(0.3)(x)
     x = tf.keras.layers.ReLU()(x)
     return x
 
