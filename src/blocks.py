@@ -17,3 +17,36 @@ def DownsamplingBlock(input_tensor, output_channels):
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
     return x
+
+
+def FCU(input_tensor, output_channels, K=3):
+    '''Factorized Convolutional Unit
+    Reference: https://arxiv.org/pdf/1906.09826v1.pdf
+    Params:
+        input_tensor -> Input Tensor
+        K -> Size of Kernel
+    '''
+    x = tf.keras.layers.Conv2D(
+        output_channels, (K, 1),
+        strides=(1, 1), use_bias=True, padding='same'
+    )(input_tensor)
+    x = tf.keras.layers.ReLU()(x)
+    x = tf.keras.layers.Conv2D(
+        output_channels, (1, K),
+        strides=(1, 1), use_bias=True, padding='same'
+    )(x)
+    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.ReLU()(x)
+    x = tf.keras.layers.Conv2D(
+        output_channels, (K, 1),
+        strides=(1, 1), use_bias=True, padding='same'
+    )(x)
+    x = tf.keras.layers.ReLU()(x)
+    x = tf.keras.layers.Conv2D(
+        output_channels, (1, K),
+        strides=(1, 1), use_bias=True, padding='same'
+    )(x)
+    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.Add()([input_tensor, x])
+    x = tf.keras.layers.ReLU()(x)
+    return x
