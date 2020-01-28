@@ -44,7 +44,7 @@ model_checkpoint = ModelCheckpoint(
 
 model.fit(
     train_dataset, validation_data=val_dataset, epochs=300,
-    steps_per_epoch=len(glob('./data/train_imgs/*')) // batch_size,
-    validation_steps=len(glob('./data/val_imgs/*')) // batch_size,
-    callbacks=[tensorboard, model_checkpoint]
+    steps_per_epoch=len(glob('./camvid/CamVid/train/*')) // batch_size,
+    validation_steps=len(glob('./camvid/CamVid/val/*')) // batch_size,
+    callbacks=[model_checkpoint]
 )
