@@ -4,3 +4,4 @@ src/__pycache__/
 test.py
 model.h5
 .DS_Store
+CamVid/
